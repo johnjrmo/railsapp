@@ -24,7 +24,7 @@ rewind :template => "#{node["nginx"]["dir"]}/conf.d/passenger.conf" do
     :passenger_pool_idle_time => node["nginx"]["passenger"]["pool_idle_time"],
     :passenger_max_requests => node["nginx"]["passenger"]["max_requests"],
     :passenger_user => node['railsapp']['user'] ? node['railsapp']['user'] : node['nginx']['user'],
-    :rails_env => :rails_env => node['railsapp']['rails_env'] ? node['railsapp']['rails_env'] : "development"
+    :rails_env => node['railsapp']['rails_env'] ? node['railsapp']['rails_env'] : "development"
   )
   notifies :reload, "service[nginx]"
 end
