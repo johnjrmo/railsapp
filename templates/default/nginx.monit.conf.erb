@@ -1,0 +1,23 @@
+ check process nginx
+  with pidfile "<%= node['nginx']['pid'] %>"
+  start program = "/usr/bin/chpst -u root /usr/bin/sv start /etc/service/nginx"
+  stop program = "/usr/bin/chpst -u root /usr/bin/sv stop /etc/service/nginx"
+
+  if totalmem is greater than 100.0 MB for 4 cycles then restart
+  if failed port 80 for 3 times within 5 cycles then restart
+  if cpu is greater than 50% for 2 cycles then alert
+  if cpu is greater than 80% for 3 cycles then restart
+  if loadavg(5min) greater than 10 for 8 cycles then restart
+  if 20 restarts within 20 cycles then timeout
+
+
+# EXAMPLES FOR ALTERNATE
+# check file httpd.conf path /usr/local/apache/conf/httpd.conf
+#     if changed sha1 checksum 
+#        then exec "/usr/local/apache/bin/apachectl graceful"
+#  restart program = "/usr/bin/chpst -u root /usr/bin/sv restart /etc/service/nginx"
+#  reload program = "/usr/bin/sv hup /etc/service/nginx"
+#  start program = "/usr/bin/sv start /etc/service/nginx"
+#  restart program = "/usr/bin/sv restart /etc/service/nginx"
+#  reload program = "/usr/bin/sv hup /etc/service/nginx"
+#  stop program = "/usr/bin/sv stop /etc/service/nginx"  

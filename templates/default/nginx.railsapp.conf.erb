@@ -1,0 +1,9 @@
+server {
+  listen 80 default_server;
+  server_name _; # This is just an invalid value which will never trigger on a real hostname.
+  access_log  <%= node['nginx']['log_dir'] %>/<%= node['hostname'] %>.railsapp.access.log;
+	server_name_in_redirect off;
+  root <%= @deploy_to %>/current/public;
+  passenger_enabled on;
+  rails_env <%= @rails_env %>;
+}

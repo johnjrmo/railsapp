@@ -1,0 +1,74 @@
+user nginx;
+<% unless @passenger_user.nil? || @passenger_user.empty? %>
+# Set the User Passenger should run as
+passenger_default_user      <%= @passenger_user %>;
+<% end -%>
+
+worker_processes  <%= @nginx_worker_processes %>;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  <%= @nginx_worker_connections %>;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+    sendfile        on;
+    tcp_nopush     on;
+    keepalive_timeout  65;
+    client_max_body_size 30m;
+    client_header_buffer_size 32k;	
+  ssl_ciphers          ALL:!EXP:!NULL:!ADH:!LOW;
+    ssl_certificate          <%= @ssl_certificate %>;
+    ssl_certificate_key      <%= @ssl_certificate_key %>;
+
+#Performance
+    gzip on;
+    gzip_proxied any;
+    gzip_static on;
+    gzip_comp_level 4;
+    gzip_min_length 1400;
+    gzip_disable        "MSIE [1-6]\.";
+    gzip_types text/plain image/png image/gif image/jpeg text/css text/xml text/javascript application/x-javascript application/xml application/xml+rss application/atom+xml application/rss+xml application/xhtml+xml image/svg+xml;
+
+    server {
+        listen       80;
+        server_name  server.carecloud.local;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+         error_log  /var/log/nginx/error.log;
+  location / {
+            root   /var/www/html/webservices/current/public/;
+        }
+
+location /nginx_status {
+  stub_status on;
+  access_log   off;
+  allow <%= @nagios_server %>;
+  allow 127.0.0.1;
+  deny all;
+}
+        error_page  404              /404.html;
+        location = /404.html {
+            root   /usr/share/nginx/html;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+    include /etc/nginx/conf.d/*.conf;
+
+}
