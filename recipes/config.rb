@@ -33,10 +33,4 @@ template "#{node['railsapp']['deploy_to']}/shared/config/database.yml" do
   recursive true
 end
 
-template "#{node['railsapp']['deploy_to']}/shared/#{dir}" do
-  owner node['railsapp']['owner']
-  group node['railsapp']['group']
-  mode '0755'
-  recursive true
-end
 
