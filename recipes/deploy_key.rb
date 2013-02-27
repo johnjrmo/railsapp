@@ -1,18 +1,21 @@
-directory "/var/www/.ssh" do
-  owner "www-data"
-  group "www-data"
+directory "/home/#{node['railsapp']['user']}/.ssh" do
+  owner node['railsapp']['user']
+  group node['railsapp']['user']
   recursive true
 end
 
-cookbook_file "/var/www/.ssh/id_rsa" do
-  source "deploy_key_id_rsa"
-  owner "www-data"
-  group "www-data"
-  mode "600"
+cookbook_file "/home/#{node['railsapp']['user']}/.ssh/id_rsa" do
+  source "git_deploy_key"
+  cookbook node['railsapp']['cookbook']
+  owner node['railsapp']['user']
+  group node['railsapp']['user']
+  mode 00600
 end
 
-cookbook_file "/var/www/.ssh/known_hosts" do
-  owner "www-data"
-  group "www-data"
-  mode "644"
+cookbook_file "/home/#{node['railsapp']['user']}/.ssh/known_hosts" do
+  source "known_hosts"
+  cookbook node['railsapp']['cookbook']
+  owner node['railsapp']['user']
+  group node['railsapp']['user']
+  mode 00644
 end

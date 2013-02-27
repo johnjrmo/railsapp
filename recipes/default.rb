@@ -7,14 +7,10 @@
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-# DEBUG
-if node['railsapp']['with_memcached'] = true
-  puts "true"
-else
-  puts "false"
-end
-
 include_recipe "resolver"
+if node['railsapp']['with_auto_hosts'] == true
+  include_recipe "autoetchosts"
+end
 include_recipe "apt"
 include_recipe "build-essential"
 include_recipe "xml"

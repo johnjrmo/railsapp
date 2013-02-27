@@ -7,6 +7,7 @@ default["railsapp"]["bundler"]["gem_binary"] = ''
 default['railsapp']['packages'] = []
 default['railsapp']['gems'] = []
 default['railsapp']['with_memcache'] = false
+default['railsapp']['with_auto_hosts'] = false
 
 default['railsapp']['user'] = 'deploy'
 default['railsapp']['group'] = 'deploy'
