@@ -59,9 +59,9 @@ Vagrant::Config.run do |config|
         :server_repl_password => 'replpass'
       }
     }
-    chef.log_level = :debug
+    chef.log_level = :info
     chef.run_list = [
-      "recipe[railsapp::default]"
+      "recipe[railsapp::vagrant_testing]"
     ]
   end
 end

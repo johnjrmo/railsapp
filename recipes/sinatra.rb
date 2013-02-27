@@ -28,6 +28,7 @@ directory "#{node['railsapp']['deploy_to']}" do
 end
 
 %w( shared/
+    shared/config
     shared/pids
     shared/system
     shared/log ).each do |d|

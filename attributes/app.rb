@@ -1,11 +1,12 @@
 default['railsapp']['name'] = 'app1'
+default['railsapp']['type'] = ''
 default['railsapp']['deploy_to'] = ''
 default['railsapp']['app_root'] = '/var/www'
 default["railsapp"]["bundler"]["version"]    = nil
 default["railsapp"]["bundler"]["gem_binary"] = ''
-default[:railsapp]['packages'] = []
-default[:railsapp]['gems'] = []
-
+default['railsapp']['packages'] = []
+default['railsapp']['gems'] = []
+default['railsapp']['with_memcache'] = false
 
 default['railsapp']['user'] = 'deploy'
 default['railsapp']['group'] = 'deploy'

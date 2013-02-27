@@ -51,7 +51,7 @@ end
 	end
 end
 
-nginx_site "admin"
+# nginx_site "admin"
 
 
 ##

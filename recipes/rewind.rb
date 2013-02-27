@@ -1,5 +1,8 @@
 
-
+# From nginx::source recipe
+rewind "package[ruby-dev]" do
+  action :nothing
+end
 
 # From nginx::passenger recipe
 rewind :template => "#{node["nginx"]["dir"]}/conf.d/passenger.conf" do

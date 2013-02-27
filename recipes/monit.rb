@@ -17,3 +17,14 @@ service "nginx" do
 	restart_command "monit restart nginx"
   action :nothing
 end
+
+# if node['railsapp']['with_memcached'] == true
+#   # Since we're using monit set it as the service command initiator
+#   service "memcached" do
+#     supports :status => true, :restart => true, :reload => true
+#     start_command "monit start memcached"
+#     stop_command "monit stop memcached"
+#     restart_command "monit restart memcached"
+#     action :nothing
+#   end
+  

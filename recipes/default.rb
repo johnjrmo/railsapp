@@ -7,15 +7,12 @@
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-node.default['railsapp']['deploy_to']  = "#{node['railsapp']['app_root']}/#{node['railsapp']['name']}-#{node.chef_environment}"
-
-# node.override["resolver"] = {
-#   "nameservers" => ["192.168.123.6"],
-#   "search" => "carecloud.local",
-#   "options" => {
-#     "timeout" => 2, "rotate" => nil
-#   }
-# }
+# DEBUG
+if node['railsapp']['with_memcached'] = true
+  puts "true"
+else
+  puts "false"
+end
 
 include_recipe "resolver"
 include_recipe "apt"
@@ -37,7 +34,10 @@ end
 if node['railsapp']['app_type'] == "rails"
   include_recipe "railsapp::rails"
 end
-include_recipe "railsapp::admin"
+if node['railsapp']['with_memcached'] == true
+  include_recipe "railsapp::memcached"
+end
+# include_recipe "railsapp::admin"
 include_recipe "railsapp::rewind"
 #include_recipe "railsapp::finalize"
 
