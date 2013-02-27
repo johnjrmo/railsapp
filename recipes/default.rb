@@ -8,8 +8,12 @@ chef_gem "chef-rewind"
 require 'chef/rewind'
 
 include_recipe "resolver"
-if node['railsapp']['with_auto_hosts'] == true
-  include_recipe "autoetchosts"
+if Chef::Config[:solo]
+  Chef::Log.warn("This recipe etcautohosts uses search. Chef Solo does not support search.")
+else
+  if node['railsapp']['with_auto_hosts'] == true
+    include_recipe "autoetchosts"
+  end
 end
 include_recipe "apt"
 include_recipe "build-essential"
