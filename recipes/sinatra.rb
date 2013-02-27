@@ -39,14 +39,14 @@ end
   end
 end
 
-# deploy_revision "#{node['railsapp']['deploy_to']}" do
-#   repository node['railsapp']['repository']
-#   revision node['railsapp']['revision']
-#   user node['nginx']['user']
-#   migrate node['railsapp']['migrate'] if node['railsapp']['migrate']
-#   migration_command node['railsapp']['migration_command'] if node['railsapp']['migration_command']
-#   environment "RAILS_ENV" => node['railsapp']['rails_env']
-#   shallow_clone true
+deploy_revision "#{node['railsapp']['deploy_to']}" do
+  repository node['railsapp']['repository']
+  revision node['railsapp']['revision']
+  user node['railsapp']['user']
+  migrate node['railsapp']['migrate'] if node['railsapp']['migrate']
+  migration_command node['railsapp']['migration_command'] if node['railsapp']['migration_command']
+  environment "RAILS_ENV" => node['railsapp']['rails_env']
+  shallow_clone true
 # 
 #   before_migrate do
 #     execute "bundle gems" do
@@ -59,6 +59,6 @@ end
 #       cwd release_path
 #     end
 #   end
-# 
-#   action node['railsapp']['deploy_action']
-# end
+
+  action node['railsapp']['deploy_action']
+end
