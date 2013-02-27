@@ -47,18 +47,18 @@ deploy_revision "#{node['railsapp']['deploy_to']}" do
   migration_command node['railsapp']['migration_command'] if node['railsapp']['migration_command']
   environment "RAILS_ENV" => node['railsapp']['rails_env']
   shallow_clone true
-# 
-#   before_migrate do
-#     execute "bundle gems" do
-#       command "bundle install " +
-#         "--deployment --without development test " +
-#         "--path #{node['railsapp']['deploy_to']}/shared/bundle " +
-#         "--binstubs #{node['railsapp']['deploy_to']}/shared/bundle/bin"
-#       user node['rubyapp']['user']
-#       group node['rubyapp']['user']
-#       cwd release_path
-#     end
-#   end
+
+  before_migrate do
+    execute "bundle gems" do
+      command "bundle install " +
+        "--deployment --without development test " +
+        "--path #{node['railsapp']['deploy_to']}/shared/bundle " +
+        "--binstubs #{node['railsapp']['deploy_to']}/shared/bundle/bin"
+      user node['railsapp']['user']
+      group node['railsapp']['user']
+      cwd "#{node['railsapp']['deploy_to']}/current/"
+    end
+  end
 
   action node['railsapp']['deploy_action']
 end
