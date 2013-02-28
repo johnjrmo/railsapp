@@ -10,7 +10,8 @@ require 'chef/rewind'
 # TODO move to ssh cookbook
 template "/etc/ssh/ssh_config" do
   source "ssh_config.erb"
-end
+  action :nothing
+end.run_action(:create)
 
 include_recipe "resolver"
 if Chef::Config[:solo]
