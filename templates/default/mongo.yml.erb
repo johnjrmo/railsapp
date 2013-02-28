@@ -5,13 +5,6 @@
   password:  <%= node[:railsapp][:db_pass] %>
   hosts:
   <% node['railsapp']['mongo_replset_members'].each do |a| %>
-    -- <%= a %>
-     - 27017
+  - - <%= a %>
+    - 27017
   <% end -%>
-
-
-#	  hosts:
-#	  - - repl1.example.com
-#	    - 27017
-#	  - - repl2.example.com
-#	    - 27017

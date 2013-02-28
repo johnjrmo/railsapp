@@ -41,12 +41,9 @@ end
 
 if Chef::Config[:solo]
   Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
-  db_host = {}
 else
   db_host = search(:node, "role:#{node['railsapp']['db_host_role']}") 
 end
-
-puts "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
  
 template "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml" do
    source "mongo.yml.erb"
