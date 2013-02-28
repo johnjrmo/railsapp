@@ -1,8 +1,8 @@
 <%= node[:railsapp][:rails_env] %>:
-  database:  <%= @app_name %>_<%= node[:railsapp][:rails_env] %>
-  adapter:   <%= @db_adapter %>
-  username:  <%= @app_name %>
-  password:  <%= @db_pass %>
+  database:  <%= node[:railsapp][:app_name] %>_<%= node[:railsapp][:rails_env] %>
+  adapter:   <%= node[:railsapp][:db_adapter] %>
+  username:  <%= node[:railsapp][:db_user] %>
+  password:  <%= node[:railsapp][:db_pass] %>
   hosts:
 
 

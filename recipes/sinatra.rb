@@ -56,7 +56,7 @@ template "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml" do
    variables({
        :app_name => node['railsapp']['app_name'],
        :db_pass => node['railsapp']['db_pass'],
-       :db_host => db_host,
+       # :db_host => db_host,
        :db_type => node['railsapp']['db_adapter']
    })
 end
