@@ -94,6 +94,6 @@ deploy_revision node['railsapp']['deploy_to'] do
   action node['railsapp']['deploy_action']
 end
 
-# link "#{node['railsapp']['deploy_to']}/current/config/mongodb.yml" do
-#   to "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
-# end
+link "#{node['railsapp']['deploy_to']}/current/config/mongodb.yml" do
+  to "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
+end
