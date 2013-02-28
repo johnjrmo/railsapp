@@ -8,7 +8,7 @@ chef_gem "chef-rewind"
 require 'chef/rewind'
 
 # TODO move to ssh cookbook
-template "/etc/ssh/ssh_config"
+template "/etc/ssh/ssh_config" do
   source "ssh_config.erb"
 end
 
