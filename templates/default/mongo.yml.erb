@@ -1,5 +1,5 @@
 <%= node[:railsapp][:rails_env] %>:
-  database:  <%= node[:railsapp][:app_name] %>_<%= node[:railsapp][:rails_env] %>
+  database:  <%= node[:railsapp][:name] %>_<%= node[:railsapp][:rails_env] %>
   adapter:   <%= node[:railsapp][:db_adapter] %>
   username:  <%= node[:railsapp][:db_user] %>
   password:  <%= node[:railsapp][:db_pass] %>

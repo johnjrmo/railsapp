@@ -7,12 +7,6 @@
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-# TODO move to ssh cookbook
-# template "/etc/ssh/ssh_config" do
-#   source "ssh_config.erb"
-#   action :nothing
-# end.run_action(:create)
-
 include_recipe "resolver"
 if Chef::Config[:solo]
   Chef::Log.warn("This recipe etcautohosts uses search. Chef Solo does not support search.")
