@@ -41,21 +41,9 @@ end
 
 if Chef::Config[:solo]
   Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
-  node.override['railsapp']['hosts'] = {
-    "auth_basic" => {
-      "fqdn" => "mongo1"
-    },
-    "auth_digest" => {
-      "fqdn" => "mongo1"
-    }
-  }
-  db_host = node['railsapp']['hosts']
+  db_host = {}
 else
   db_host = search(:node, "role:#{node['railsapp']['db_host_role']}") 
-end
-
-db_host.each do |d|
-  puts d['fqdn']
 end
 
 puts "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
