@@ -4,7 +4,10 @@
   username:  <%= node[:railsapp][:db_user] %>
   password:  <%= node[:railsapp][:db_pass] %>
   hosts:
-
+  <% node['railsapp']['mongo_replset_members'].each do |a| %>
+    -- <%= a %>
+     - 27017
+  <% end -%>
 
 
 #	  hosts:
