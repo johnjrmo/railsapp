@@ -9,6 +9,7 @@ node.override['nginx']['version']               = "1.2.6"
 node.override['nginx']['install_method']        = 'source'
 node.override['nginx']['default_site_enabled']  = false
 node.set['nginx']['source']['prefix']           = "/usr/local"
+node.set['nginx']['client_max_body_size']       = "100m"
 
 # Paths
 if(node.run_state[:seen_recipes].has_key?("ruby_build"))

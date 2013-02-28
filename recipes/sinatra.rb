@@ -39,7 +39,28 @@ end
   end
 end
 
-deploy_revision "#{node['railsapp']['deploy_to']}" do
+if Chef::Config[:solo]
+  Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+else
+  db_host = search(:node, "role:#{node['railsapp']['db_host_role']}") 
+end
+ 
+puts "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
+ 
+template "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml" do
+   source "mongo.yml.erb"
+   owner user[:username]
+   group user[:username]
+   mode 00744
+   variables({
+       :app_name => node['railsapp']['app_name'],
+       :db_pass => node['railsapp']['db_pass'],
+       :db_host => db_host,
+       :db_type => node['railsapp']['db_adapter']
+   })
+end
+
+deploy_revision node['railsapp']['deploy_to'] do
   repository node['railsapp']['repository']
   revision node['railsapp']['revision']
   user node['railsapp']['user']
@@ -48,17 +69,30 @@ deploy_revision "#{node['railsapp']['deploy_to']}" do
   environment "RAILS_ENV" => node['railsapp']['rails_env']
   shallow_clone true
 
-  before_migrate do
-    execute "bundle gems" do
-      command "bundle install " +
-        "--deployment --without development test " +
-        "--path #{node['railsapp']['deploy_to']}/shared/bundle " +
-        "--binstubs #{node['railsapp']['deploy_to']}/shared/bundle/bin"
-      user node['railsapp']['user']
-      group node['railsapp']['user']
-      cwd "#{node['railsapp']['deploy_to']}/current/"
-    end
-  end
+  # before_migrate do
+  #   execute "bundle gems" do
+  #     command "bundle install " +
+  #       # "--deployment --without development test " +
+  #       node['railsapp']['deployment_command'] +
+  #       "--path #{node['railsapp']['deploy_to']}/shared/bundle " +
+  #       "--binstubs #{node['railsapp']['deploy_to']}/shared/bundle/bin"
+  #     user node['nginx']['user']
+  #     group node['nginx']['user']
+  #     cwd release_path
+  #   end
+  # end
+
+ restart do
+   execute "restart app" do
+     command "touch #{node['railsapp']['deploy_to']}/current/tmp/restart.txt"
+     user node['railsapp']['user']
+   end
+ end
+
 
   action node['railsapp']['deploy_action']
 end
+
+# link "#{node['railsapp']['deploy_to']}/current/config/mongodb.yml" do
+#   to "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
+# end

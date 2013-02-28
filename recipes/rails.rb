@@ -51,7 +51,8 @@ deploy_revision "#{node['railsapp']['deploy_to']}" do
   before_migrate do
     execute "bundle gems" do
       command "bundle install " +
-        "--deployment --without development test " +
+        # "--deployment --without development test " +
+        node['railsapp']['deployment_command'] +
         "--path #{node['railsapp']['deploy_to']}/shared/bundle " +
         "--binstubs #{node['railsapp']['deploy_to']}/shared/bundle/bin"
       user node['nginx']['user']
@@ -60,12 +61,12 @@ deploy_revision "#{node['railsapp']['deploy_to']}" do
     end
   end
 
-#  restart do
-#    execute "restart app" do
-#      command "bluepill app restart"
-#      user "root"
-#    end
-#  end
+ restart do
+   execute "restart app" do
+     command "touch #{node['railsapp']['deploy_to']}/current/tmp/restart.txt"
+     user node['railsapp']['user']
+   end
+ end
 
   action node['railsapp']['deploy_action']
 end

@@ -1,8 +1,7 @@
----
-production:
-  adapter: <%= @adapter %>
-  database: <%= @name %>
-  username: <%= @user %>
-  password: <%= @pass %>
-  host: <%= @host %>
-  encoding: UTF8
+
+  <%= @node[:railsapp][:rails_env] %>:
+    adapter:   <%= @db_adapter %>
+    database:  <%= @app_name %>_<%= @node[:environment][:framework_env] %>
+    username:  <%= @app_name %>
+    password:  <%= @db_pass %>
+    host:      <%= @db_host %>
