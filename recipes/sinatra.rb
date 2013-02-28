@@ -49,8 +49,8 @@ puts "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml"
  
 template "#{node['railsapp']['deploy_to']}/shared/config/mongodb.yml" do
    source "mongo.yml.erb"
-   owner user[:username]
-   group user[:username]
+   owner node['railsapp']['user']
+   group node['railsapp']['user']
    mode 00744
    variables({
        :app_name => node['railsapp']['app_name'],
